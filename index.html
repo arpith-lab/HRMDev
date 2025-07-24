@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevTeam HRM - Human Resource Management for Developers</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar__header">
+            <h2>DevTeam HRM</h2>
+        </div>
+        <ul class="sidebar__nav">
+            <li><a href="#" data-page="dashboard" class="nav-link nav-link--active">
+                <span class="nav-icon">📊</span> Dashboard
+            </a></li>
+            <li><a href="#" data-page="availability" class="nav-link">
+                <span class="nav-icon">📅</span> Availability
+            </a></li>
+            <li><a href="#" data-page="attendance" class="nav-link">
+                <span class="nav-icon">⏰</span> Attendance
+            </a></li>
+            <li><a href="#" data-page="performance" class="nav-link">
+                <span class="nav-icon">📈</span> Performance
+            </a></li>
+            <li><a href="#" data-page="team" class="nav-link">
+                <span class="nav-icon">👥</span> Team
+            </a></li>
+            <li><a href="#" data-page="settings" class="nav-link">
+                <span class="nav-icon">⚙️</span> Settings
+            </a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="header">
+            <div class="header__left">
+                <h1 id="page-title">Dashboard</h1>
+            </div>
+            <div class="header__right">
+                <div class="notifications" id="notification-container">
+                    <span class="notifications__badge" id="notification-count">0</span>
+                    <span class="nav-icon" id="notification-bell">🔔</span>
+                    <div class="notification-dropdown" id="notification-dropdown" style="display:none; position:absolute; right:0; background:#fff; border:1px solid #ccc; width:300px; max-height:400px; overflow-y:auto; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index:1000;">
+                        <ul id="notification-list" style="list-style:none; margin:0; padding:0;">
+                            <!-- Notifications will be dynamically inserted here -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <span class="user-profile__name">Alex Chen</span>
+                    <span class="user-profile__role">Senior Developer</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page page--active">
+            <div class="dashboard-grid">
+                <!-- Overview Cards -->
+                <div class="overview-cards">
+                    <div class="card overview-card">
+                <div class="overview-card__content">
+                    <h3>This Week's Availability</h3>
+                    <div class="overview-card__value overview-card__value--success">
+                        <span class="value">Submitted</span>
+                        <span class="subtitle">Due: Friday 6PM</span>
+                    </div>
+                </div>
+                <div class="overview-card__icon">📅</div>
+            </div>
+            <!-- Removed availability tracking from dashboard sidebar -->
+
+                    <div class="card overview-card">
+                        <div class="overview-card__content">
+                            <h3>Attendance Rate</h3>
+                            <div class="overview-card__value">
+                                <span class="value">92%</span>
+                                <span class="subtitle">This month</span>
+                            </div>
+                        </div>
+                        <div class="overview-card__icon">⏰</div>
+                    </div>
+
+                    <div class="card overview-card">
+                        <div class="overview-card__content">
+                            <h3>Performance Score</h3>
+                            <div class="overview-card__value overview-card__value--high">
+                                <span class="value">88</span>
+                                <span class="subtitle">+5 from last month</span>
+                            </div>
+                        </div>
+                        <div class="overview-card__icon">📈</div>
+                    </div>
+
+                    <div class="card overview-card">
+                        <div class="overview-card__content">
+                            <h3>Pending Tasks</h3>
+                            <div class="overview-card__value overview-card__value--warning">
+                                <span class="value">2</span>
+                                <span class="subtitle">Action required</span>
+                            </div>
+                        </div>
+                        <div class="overview-card__icon">📋</div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="card chart-card">
+                        <div class="card__body">
+                            <h3>Weekly Attendance Trend</h3>
+                            <canvas id="attendanceChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <div class="card__body">
+                            <h3>Availability Compliance</h3>
+                            <canvas id="complianceChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+               
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Alerts & Notifications</h3>
+                            <div class="alerts-list">
+                                <div class="alert alert--warning">
+                                    <span class="alert-icon">⚠️</span>
+                                    <div class="alert-content">
+                                        <div class="alert-title">Availability Deadline</div>
+                                        <div class="alert-text">Submit next week's availability by Friday 6PM</div>
+                                    </div>
+                                </div>
+                                <div class="alert alert--info">
+                                    <span class="alert-icon">ℹ️</span>
+                                    <div class="alert-content">
+                                        <div class="alert-title">Performance Review</div>
+                                        <div class="alert-text">New AI feedback available in Performance section</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Performance Page -->
+        <div id="performance-page" class="page">
+            <div class="performance-grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Planned vs. Actual Activity</h3>
+                        <canvas id="varianceChart" width="600" height="300" aria-label="Planned vs Actual Hours Bar Chart" role="img"></canvas>
+                        <!-- Removed variance table as per user request -->
+                        <!-- <div class="variance-table" style="margin-top:16px;">
+                          <table>
+                            <thead>
+                              <tr><th>Day</th><th>Expected Hours</th><th>Actual Hours</th></tr>
+                            </thead>
+                            <tbody id="variance-table">
+                              <!-- Table rows will be dynamically filled by app.js -->
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Performance Feedback</h3>
+                        <div id="performance-feedback"></div>
+                      </div>
+                    </div>
+            </div>
+        </div>
+
+        <!-- Availability Page -->
+        <div id="availability-page" class="page">
+            <div class="page-actions">
+                <button class="btn btn--primary" id="submit-availability">Submit This Week</button>
+            <button class="btn btn--outline" id="bulk-availability">Set Multiple Weeks</button>
+          </div>
+
+          <!-- Bulk Availability Page -->
+          <div id="bulk-availability-page" class="page bulk-availability-page" style="display:none; padding: 24px;">
+            <div class="page-actions">
+              <button class="btn btn--outline" id="back-to-availability-main">Back</button>
+              <h3>Set Availability for Multiple Weeks</h3>
+            </div>
+            <div class="availability-grid">
+          <div class="card">
+            <div class="card__body">
+              <div class="form-group">
+                <label for="month-select" class="form-label">Select Month</label>
+                <select id="month-select" class="form-control" title="Month">
+                  <option value="0">January</option>
+                  <option value="1">February</option>
+                  <option value="2">March</option>
+                  <option value="3">April</option>
+                  <option value="4">May</option>
+                  <option value="5">June</option>
+                  <option value="6">July</option>
+                  <option value="7">August</option>
+                  <option value="8">September</option>
+                  <option value="9">October</option>
+                  <option value="10">November</option>
+                  <option value="11">December</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="week-select" class="form-label">Select Week of Month</label>
+                <select id="week-select" class="form-control" title="Week of Month">
+                  <option value="1">Week 1</option>
+                  <option value="2">Week 2</option>
+                  <option value="3">Week 3</option>
+                  <option value="4">Week 4</option>
+                  <option value="5">Week 5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Working Days</label>
+                <div class="day-selector">
+                  <label class="day-option">
+                    <input type="checkbox" checked> Monday
+                  </label>
+                  <label class="day-option">
+                    <input type="checkbox" checked> Tuesday
+                  </label>
+                  <label class="day-option">
+                    <input type="checkbox" checked> Wednesday
+                  </label>
+                  <label class="day-option">
+                    <input type="checkbox" checked> Thursday
+                  </label>
+                  <label class="day-option">
+                    <input type="checkbox"> Friday
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Working Hours</label>
+                <div class="time-inputs">
+                  <input type="time" class="form-control" value="09:00" id="bulk-start-time" title="Start Time" placeholder="Start Time">
+                  <span>to</span>
+                  <input type="time" class="form-control" value="17:00" id="bulk-end-time" title="End Time" placeholder="End Time">
+                </div>
+              </div>
+              <button class="btn btn--primary" id="submit-bulk-availability">Submit Availability</button>
+            </div>
+          </div>
+            </div>
+          </div>
+
+            <div class="availability-grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Weekly Schedule</h3>
+                        <div class="schedule-form">
+                            <div class="form-group">
+                                <label class="form-label">Working Days (4-day remote week)</label>
+                                <div class="day-selector">
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Monday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Tuesday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Wednesday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Thursday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox"> Friday
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Working Hours</label>
+                                <div class="time-inputs">
+                                    <input type="time" class="form-control" value="09:00" title="Start Time" placeholder="Start Time">
+                                    <span>to</span>
+                                    <input type="time" class="form-control" value="17:00" title="End Time" placeholder="End Time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submission-deadline">
+                            <span class="status status--success">Submitted on Jan 19, 2025</span>
+                            <div class="deadline-info">Next deadline: Friday, Jan 24 at 6:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Availability History</h3>
+                        <div class="history-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Week</th>
+                                        <th>Days</th>
+                                        <th>Hours</th>
+                                        <th>Submitted</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="availability-history">
+                                    <tr>
+                                        <td>Jan 20, 2025</td>
+                                        <td>Mon-Thu</td>
+                                        <td>9:00-17:00</td>
+                                        <td><span class="status status--success">On Time</span></td>
+                                        <td>Jan 19</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jan 13, 2025</td>
+                                        <td>Mon-Thu</td>
+                                        <td>10:00-18:00</td>
+                                        <td><span class="status status--success">On Time</span></td>
+                                        <td>Jan 12</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Page -->
+        <div id="attendance-page" class="page">
+            <div class="page-actions">
+                <button class="btn btn--primary" id="check-in-btn">Check In</button>
+                <button class="btn btn--outline" id="check-out-btn">Check Out</button>
+            </div>
+
+            <div class="attendance-grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Today's Attendance</h3>
+                        <div class="attendance-today">
+                            <div class="attendance-status">
+                                <span class="status-indicator status-indicator--active"></span>
+                                <span class="status-text">Currently Working</span>
+                            </div>
+                            <div class="attendance-times">
+                                <div class="time-entry">
+                                    <label>Last Check In:</label>
+                                    <span class="time">09:15 AM</span>
+                                </div>
+                                <div class="time-entry">
+                                    <label>Hours Today:</label>
+                                    <span class="time">6h 39m</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Weekly Summary</h3>
+                        <div class="weekly-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Total Hours:</span>
+                                <span class="summary-value">32.5h</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Days Present:</span>
+                                <span class="summary-value">4/4</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Attendance Rate:</span>
+                                <span class="summary-value">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Attendance History</h3>
+                        <div class="attendance-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Hours</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendance-history">
+                                    <tr>
+                                        <td>Jan 21, 2025</td>
+                                        <td>09:45</td>
+                                        <td>17:15</td>
+                                        <td>7h 30m</td>
+                                        <td><span class="status status--success">Present</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jan 20, 2025</td>
+                                        <td>09:15</td>
+                                        <td>17:30</td>
+                                        <td>8h 15m</td>
+                                        <td><span class="status status--success">Present</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- Performance Page -->
+
+        <!-- Team Page -->
+        <div id="team-page" class="page">
+            <div class="page-actions">
+                <button class="btn btn--primary" id="send-alerts">Send Alerts</button>
+                <button class="btn btn--outline" id="export-report">Export Report</button>
+            </div>
+
+            <div class="team-grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Team Availability Overview</h3>
+                        <div class="team-calendar">
+                            <table class="calendar-table">
+                                <thead>
+                                    <tr>
+                                        <th>Team Member</th>
+                                        <th>Mon</th>
+                                        <th>Tue</th>
+                                        <th>Wed</th>
+                                        <th>Thu</th>
+                                        <th>Fri</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="team-calendar">
+                                    <tr>
+                                        <td>Alex Chen</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="off">-</td>
+                                        <td><span class="status status--success">Submitted</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sarah Johnson</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="off">-</td>
+                                        <td><span class="status status--success">Submitted</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mike Rodriguez</td>
+                                        <td class="off">-</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td class="available">✓</td>
+                                        <td><span class="status status--error">Overdue</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Team Performance Summary</h3>
+                        <div class="team-metrics">
+                            <div class="team-member-card">
+                                <div class="member-info">
+                                    <h4>Sarah Johnson</h4>
+                                    <span class="member-role">Tech Lead</span>
+                                </div>
+                                <div class="member-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">98%</span>
+                                        <span class="stat-label">Attendance</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">95</span>
+                                        <span class="stat-label">Score</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="team-member-card">
+                                <div class="member-info">
+                                    <h4>Alex Chen</h4>
+                                    <span class="member-role">Senior Developer</span>
+                                </div>
+                                <div class="member-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">92%</span>
+                                        <span class="stat-label">Attendance</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">88</span>
+                                        <span class="stat-label">Score</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="team-member-card">
+                                <div class="member-info">
+                                    <h4>Mike Rodriguez</h4>
+                                    <span class="member-role">Junior Developer</span>
+                                </div>
+                                <div class="member-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">85%</span>
+                                        <span class="stat-label">Attendance</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">72</span>
+                                        <span class="stat-label">Score</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div id="settings-page" class="page">
+            <div class="settings-grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Profile Settings</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" value="Alex Chen" title="Full Name" placeholder="Full Name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" value="alex@company.com" title="Email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Role</label>
+                                <select class="form-control" title="Role">
+                                    <option>Senior Developer</option>
+                                    <option>Junior Developer</option>
+                                    <option>Tech Lead</option>
+                                    <option>Full Stack Developer</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Work Schedule Preferences</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label class="form-label">Default Working Days</label>
+                                <div class="day-selector">
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Monday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Tuesday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Wednesday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox" checked> Thursday
+                                    </label>
+                                    <label class="day-option">
+                                        <input type="checkbox"> Friday
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Default Hours</label>
+                                <div class="time-inputs">
+                                    <input type="time" class="form-control" value="09:00" title="Start Time" placeholder="Start Time">
+                                    <span>to</span>
+                                    <input type="time" class="form-control" value="17:00" title="End Time" placeholder="End Time">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Notification Preferences</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked>
+                                    Email notifications for availability deadlines
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked>
+                                    Performance feedback notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox">
+                                    Daily attendance reminders
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-actions">
+                <button class="btn btn--primary">Save Settings</button>
+                <button class="btn btn--outline">Reset to Defaults</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
